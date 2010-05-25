@@ -13,7 +13,7 @@
 ; main-html
 ;----------------------------------------------------------------
 
-(defn render-get-main []
+(defn render-get-main [expr]
   (html
     (doctype :html4)
     [:html
@@ -22,33 +22,25 @@
       (include-css "/static/main.css")]
      [:body
       [:h1 "Clojure REPL"]
-      (form-to [:get "/eval"]
+      (form-to [:get "/"]
         [:p {:id "prompt"} "Input a clojure expression:"]
-        (text-area "expr" "(+ 1 1)")
+        (text-area "expr"
+                   (or expr "(+ 1 1)"))
         (submit-button "Submit"))
-
+      (if (not (nil? expr))
+        [:div
+         [:p "Result:"]
+         [:br] [:hr] [:br]
+         [:pre (str (eval (read-string expr)))]]
+        [:br])
       ]]))
-
-(defn render-get-eval [expr]
-  (html
-    (doctype :html4)
-    [:html
-     [:head [:title "Result"]
-      (include-css "/static/main.css")]
-     [:body
-      [:pre expr]
-      [:br] [:hr] [:br]
-      [:p "Result:"]
-      [:br] [:hr] [:br]
-      [:pre (str (eval (read-string expr)))]]]))
 
 ;----------------------------------------------------------------
 ; Routes + Service
 ;----------------------------------------------------------------
 
 (defroutes main-routes
-  (GET "/" [] (render-get-main))
-  (GET "/eval" [expr] (render-get-eval expr))
+  (GET "/" [expr] (render-get-main expr))
   ; this is only necessary in development mode.  in GAE deployment,
   ; the servlet mapping will automatically map /static/ files.
   (GET "/static/main.css" [] (file-response "war/static/main.css"))
