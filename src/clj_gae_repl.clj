@@ -17,22 +17,23 @@
     (doctype :html4)
     [:html
      [:head
-      [:title "Clojure REPL on Google App Engine"]
+      [:title "Evaluate a Clojure Expression"]
       (include-css "/static/main.css")]
      [:body
-      [:h1 "Clojure REPL"]
+      [:h1 "Evaluate a Clojure Expression"]
       (form-to [:get "/"]
-        [:p {:id "prompt"} "Input a clojure expression:"]
-        (text-area "expr"
-                   (or expr "(+ 1 1)"))
+        (text-area "expr" (or expr "(+ 1 1)"))
+        [:br]
         (submit-button "Submit"))
       (if (not (nil? expr))
         [:div
-         [:p "Result:"]
-         [:br] [:hr] [:br]
-         [:pre (str (eval (read-string expr)))]]
-        [:br])
-      ]]))
+         [:div {:id "result-label"} "Result:"]
+         [:div {:id "result"}
+          (str (eval (read-string expr)))]]
+        "")
+      [:div {:id "footer"}
+       (link-to "http://github.com/aiba/clj-gae-repl"
+                "Source code to this app")]]]))
 
 ;----------------------------------------------------------------
 ; Routes + Service

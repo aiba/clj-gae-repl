@@ -6,8 +6,47 @@ html {
   font-size: 82.5%;
 }
 
-h1 {
-  
+body {
+  padding: 2em;
 }
 
+form textarea {
+  width: 100%;
+  height: 60px;
+  border: 1px solid #339;
+  margin: 4px 0;
+  padding: 4px;
+}
+
+h1 {
+  font-size: 1.1em;
+  color: #444;
+}
+
+div#result-label {
+  margin-top: 1em;
+  color: #666;
+  font-style: italic;
+}
+
+div#result {
+  border: 1px solid #ccc;
+  background: #eef;
+  padding: 4px;
+}
+
+div#footer {
+  border-top: 1px solid #ccc;
+  margin-top: 16px;
+  padding-top: 4px;
+}
+
+a {
+  text-decoration: none;
+  color: #66f;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 
