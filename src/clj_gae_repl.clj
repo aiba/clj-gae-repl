@@ -1,7 +1,9 @@
 (ns clj-gae-repl
   (:gen-class :extends javax.servlet.http.HttpServlet)
   (:use compojure.core
-        ring.util.servlet)
+        ring.util.servlet
+        ring.adapter.jetty
+        hiccup.core)
   (:require [compojure.route :as route]))
 
 ;----------------------------------------------------------------
@@ -9,15 +11,31 @@
 ;----------------------------------------------------------------
 
 (defn main-html []
-  (str "<html><body><h1>clj-gae-repl</h1></body></html>"))
+  (html
+    [:html
+     [:head
+      [:title "Title"]]
+     [:body
+      [:h1 "clj-gae-repl"]]]
+    ))
 
 ;----------------------------------------------------------------
 ; Routes + Service
 ;----------------------------------------------------------------
 
-(defroutes example
+(defroutes main-routes
   (GET "/" [] (main-html))
   (route/not-found "Page not found"))
 
-(defservice example)
+; for GAE:
+(defservice main-routes)
+
+; for local/REPL development:
+
+(defmacro async [expr]
+  `(.start (Thread. (fn [] ~expr))))
+
+(defn cgr-start-jetty []
+  (async (run-jetty main-routes {:port 9000})))
+
 
