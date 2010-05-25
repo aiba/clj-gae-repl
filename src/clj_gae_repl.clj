@@ -2,7 +2,6 @@
   (:gen-class :extends javax.servlet.http.HttpServlet)
   (:use compojure.core
         ring.util.servlet
-        ring.adapter.jetty
         ring.util.response
         hiccup.core
         hiccup.page-helpers
@@ -48,13 +47,4 @@
 
 ; for GAE:
 (defservice main-routes)
-
-; for local/REPL development:
-
-(defmacro async [expr]
-  `(.start (Thread. (fn [] ~expr))))
-
-(defn cgr-start-jetty []
-  (async (run-jetty main-routes {:port 9000})))
-
 
