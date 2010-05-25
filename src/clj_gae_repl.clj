@@ -3,7 +3,9 @@
   (:use compojure.core
         ring.util.servlet
         ring.adapter.jetty
-        hiccup.core)
+        ring.util.response
+        hiccup.core
+        hiccup.page-helpers)
   (:require [compojure.route :as route]))
 
 ;----------------------------------------------------------------
@@ -12,11 +14,13 @@
 
 (defn main-html []
   (html
+    (doctype :html4)
     [:html
      [:head
-      [:title "Title"]]
+      [:title "Clojure REPL on Google App Engine"]
+      (include-css "/static/main.css")]
      [:body
-      [:h1 "clj-gae-repl"]]]
+      [:h1 "Clojure REPL on Google App Engine"]]]
     ))
 
 ;----------------------------------------------------------------
@@ -25,6 +29,9 @@
 
 (defroutes main-routes
   (GET "/" [] (main-html))
+  ; this is only necessary in development mode.  in GAE deployment,
+  ; the servlet mapping will automatically map /static/ files.
+  (GET "/static/main.css" [] (file-response "war/static/main.css"))
   (route/not-found "Page not found"))
 
 ; for GAE:
