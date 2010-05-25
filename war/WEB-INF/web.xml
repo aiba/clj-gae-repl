@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+  <servlet>
+    <servlet-name>clj-gae-repl</servlet-name>
+    <servlet-class>clj_gae_repl</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>clj-gae-repl</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+</web-app>
+
