@@ -1,0 +1,14 @@
+
+helpful example:
+
+(defroutes example 
+  (GET "/" [] 
+    (html 
+      (form-to [:post "/greet"] 
+        (text-field :name) 
+        (submit-button "Send")))) 
+  (POST "/greet" [name] 
+    (html 
+      [:h1 "Hello " name]))) 
+
+
